@@ -1,0 +1,14 @@
+* Precharge Circuit Test
+VDD vdd 0 DC 5
+* Precharge control
+VPRE Pre 0 PULSE(0 5 20n 1n 1n 40n 80n)
+* Precharge PMOSes
+M1 bitline     Pre vdd vdd PMOS L=0.6U W=1.8U
+M2 bitline_bar Pre vdd vdd PMOS L=0.6U W=1.8U
+M3 bitline_bar Pre bitline vdd PMOS L=0.6U W=1.5U
+* Bitline capacitances
+CBL  bitline     0 20f
+CBLB bitline_bar 0 20f
+.include C:\Users\user\Downloads\Tools\C5_models.txt
+.tran 0.1n 200n
+.end

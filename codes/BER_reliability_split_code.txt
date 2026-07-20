@@ -1,0 +1,116 @@
+* SRAM PUF BER, noisy repeated reads
+.include C5_models.txt
+VDD vdd 0 PWL(0 0 5n 5)
+.param sn=0.005
+.subckt pufcell Q QB vdd gnd dv1=0 dv2=0 dv3=0 dv4=0
+Vo1 QB g1 {dv1}
+Vo2 Q  g2 {dv2}
+Vo3 QB g3 {dv3}
+Vo4 Q  g4 {dv4}
+M1 Q  g1 gnd gnd NMOS W=3u   L=0.6u
+M2 QB g2 gnd gnd NMOS W=3u   L=0.6u
+M3 Q  g3 vdd vdd PMOS W=1.5u L=0.6u
+M4 QB g4 vdd vdd PMOS W=1.5u L=0.6u
+.ends pufcell
+.param na0={gauss(sn)} nb0={gauss(sn)} nc0={gauss(sn)} nd0={gauss(sn)}
+.param na1={gauss(sn)} nb1={gauss(sn)} nc1={gauss(sn)} nd1={gauss(sn)}
+.param na2={gauss(sn)} nb2={gauss(sn)} nc2={gauss(sn)} nd2={gauss(sn)}
+.param na3={gauss(sn)} nb3={gauss(sn)} nc3={gauss(sn)} nd3={gauss(sn)}
+.param na4={gauss(sn)} nb4={gauss(sn)} nc4={gauss(sn)} nd4={gauss(sn)}
+.param na5={gauss(sn)} nb5={gauss(sn)} nc5={gauss(sn)} nd5={gauss(sn)}
+.param na6={gauss(sn)} nb6={gauss(sn)} nc6={gauss(sn)} nd6={gauss(sn)}
+.param na7={gauss(sn)} nb7={gauss(sn)} nc7={gauss(sn)} nd7={gauss(sn)}
+.param na8={gauss(sn)} nb8={gauss(sn)} nc8={gauss(sn)} nd8={gauss(sn)}
+.param na9={gauss(sn)} nb9={gauss(sn)} nc9={gauss(sn)} nd9={gauss(sn)}
+.param na10={gauss(sn)} nb10={gauss(sn)} nc10={gauss(sn)} nd10={gauss(sn)}
+.param na11={gauss(sn)} nb11={gauss(sn)} nc11={gauss(sn)} nd11={gauss(sn)}
+.param na12={gauss(sn)} nb12={gauss(sn)} nc12={gauss(sn)} nd12={gauss(sn)}
+.param na13={gauss(sn)} nb13={gauss(sn)} nc13={gauss(sn)} nd13={gauss(sn)}
+.param na14={gauss(sn)} nb14={gauss(sn)} nc14={gauss(sn)} nd14={gauss(sn)}
+.param na15={gauss(sn)} nb15={gauss(sn)} nc15={gauss(sn)} nd15={gauss(sn)}
+.param na16={gauss(sn)} nb16={gauss(sn)} nc16={gauss(sn)} nd16={gauss(sn)}
+.param na17={gauss(sn)} nb17={gauss(sn)} nc17={gauss(sn)} nd17={gauss(sn)}
+.param na18={gauss(sn)} nb18={gauss(sn)} nc18={gauss(sn)} nd18={gauss(sn)}
+.param na19={gauss(sn)} nb19={gauss(sn)} nc19={gauss(sn)} nd19={gauss(sn)}
+.param na20={gauss(sn)} nb20={gauss(sn)} nc20={gauss(sn)} nd20={gauss(sn)}
+.param na21={gauss(sn)} nb21={gauss(sn)} nc21={gauss(sn)} nd21={gauss(sn)}
+.param na22={gauss(sn)} nb22={gauss(sn)} nc22={gauss(sn)} nd22={gauss(sn)}
+.param na23={gauss(sn)} nb23={gauss(sn)} nc23={gauss(sn)} nd23={gauss(sn)}
+.param na24={gauss(sn)} nb24={gauss(sn)} nc24={gauss(sn)} nd24={gauss(sn)}
+.param na25={gauss(sn)} nb25={gauss(sn)} nc25={gauss(sn)} nd25={gauss(sn)}
+.param na26={gauss(sn)} nb26={gauss(sn)} nc26={gauss(sn)} nd26={gauss(sn)}
+.param na27={gauss(sn)} nb27={gauss(sn)} nc27={gauss(sn)} nd27={gauss(sn)}
+.param na28={gauss(sn)} nb28={gauss(sn)} nc28={gauss(sn)} nd28={gauss(sn)}
+.param na29={gauss(sn)} nb29={gauss(sn)} nc29={gauss(sn)} nd29={gauss(sn)}
+.param na30={gauss(sn)} nb30={gauss(sn)} nc30={gauss(sn)} nd30={gauss(sn)}
+.param na31={gauss(sn)} nb31={gauss(sn)} nc31={gauss(sn)} nd31={gauss(sn)}
+
+X0 q0 qb0 vdd 0 pufcell dv1={0.00701+na0} dv2={0.01185+nb0} dv3={-0.0068+nc0} dv4={-0.00771+nd0}
+X1 q1 qb1 vdd 0 pufcell dv1={0.00338+na1} dv2={0.0156+nb1} dv3={0.00384+nc1} dv4={-0.01008+nd1}
+X2 q2 qb2 vdd 0 pufcell dv1={-0.0066+na2} dv2={-0.00021+nb2} dv3={0.00867+nc2} dv4={0.00017+nd2}
+X3 q3 qb3 vdd 0 pufcell dv1={-0.00293+na3} dv2={-0.00174+nb3} dv3={0.00178+nc3} dv4={-0.0063+nd3}
+X4 q4 qb4 vdd 0 pufcell dv1={0.00029+na4} dv2={0.00263+nb4} dv3={0.01474+nc4} dv4={-0.00023+nd4}
+X5 q5 qb5 vdd 0 pufcell dv1={0.00881+na5} dv2={-0.0088+nb5} dv3={0.00786+nc5} dv4={0.00171+nd5}
+X6 q6 qb6 vdd 0 pufcell dv1={-0.00446+na6} dv2={7e-05+nb6} dv3={0.00824+nc6} dv4={-0.00256+nd6}
+X7 q7 qb7 vdd 0 pufcell dv1={0.00935+na7} dv2={0.01372+nb7} dv3={0.01461+nc7} dv4={0.01459+nd7}
+X8 q8 qb8 vdd 0 pufcell dv1={-0.01091+na8} dv2={0.00331+nb8} dv3={-0.00571+nc8} dv4={0.00865+nd8}
+X9 q9 qb9 vdd 0 pufcell dv1={0.00096+na9} dv2={0.00228+nb9} dv3={0.00438+nc9} dv4={-0.00492+nd9}
+X10 q10 qb10 vdd 0 pufcell dv1={0.00116+na10} dv2={-0.00604+nb10} dv3={0.0187+nc10} dv4={-0.00372+nd10}
+X11 q11 qb11 vdd 0 pufcell dv1={0.00046+na11} dv2={-0.01526+nb11} dv3={-0.01272+nc11} dv4={-0.00708+nd11}
+X12 q12 qb12 vdd 0 pufcell dv1={0.00735+na12} dv2={0.00712+nb12} dv3={0.00281+nc12} dv4={-0.00534+nd12}
+X13 q13 qb13 vdd 0 pufcell dv1={0.01667+na13} dv2={-0.00873+nb13} dv3={-0.00723+nc13} dv4={0.00462+nd13}
+X14 q14 qb14 vdd 0 pufcell dv1={-0.00847+na14} dv2={0.00268+nb14} dv3={0.00889+nc14} dv4={-0.00029+nd14}
+X15 q15 qb15 vdd 0 pufcell dv1={0.00393+na15} dv2={0.00067+nb15} dv3={-0.00563+nc15} dv4={-0.02771+nd15}
+X16 q16 qb16 vdd 0 pufcell dv1={-0.01046+na16} dv2={0.00026+nb16} dv3={-0.0142+nc16} dv4={-0.00466+nd16}
+X17 q17 qb17 vdd 0 pufcell dv1={0.00216+na17} dv2={0.01214+nb17} dv3={-0.01178+nc17} dv4={-0.00437+nd17}
+X18 q18 qb18 vdd 0 pufcell dv1={0.00232+na18} dv2={0.00498+nb18} dv3={-0.01192+nc18} dv4={0.0168+nd18}
+X19 q19 qb19 vdd 0 pufcell dv1={-0.00692+na19} dv2={0.00997+nb19} dv3={-0.00146+nc19} dv4={0.00394+nd19}
+X20 q20 qb20 vdd 0 pufcell dv1={0.01512+na20} dv2={0.00661+nb20} dv3={0.00147+nc20} dv4={-0.0086+nd20}
+X21 q21 qb21 vdd 0 pufcell dv1={-0.00549+na21} dv2={-0.01234+nb21} dv3={0.01824+nc21} dv4={-0.01348+nd21}
+X22 q22 qb22 vdd 0 pufcell dv1={-0.02257+na22} dv2={0.01493+nb22} dv3={0.01168+nc22} dv4={-0.00289+nd22}
+X23 q23 qb23 vdd 0 pufcell dv1={0.00776+na23} dv2={-0.00701+nb23} dv3={-0.00481+nc23} dv4={0.00478+nd23}
+X24 q24 qb24 vdd 0 pufcell dv1={0.00381+na24} dv2={-0.00376+nb24} dv3={0.01476+nc24} dv4={0.00687+nd24}
+X25 q25 qb25 vdd 0 pufcell dv1={0.00155+na25} dv2={-0.01022+nb25} dv3={0.00153+nc25} dv4={-0.00252+nd25}
+X26 q26 qb26 vdd 0 pufcell dv1={-0.00037+na26} dv2={0.00744+nb26} dv3={-0.00482+nc26} dv4={0.00267+nd26}
+X27 q27 qb27 vdd 0 pufcell dv1={0.00741+na27} dv2={0.00346+nb27} dv3={0.02077+nc27} dv4={-0.01526+nd27}
+X28 q28 qb28 vdd 0 pufcell dv1={-0.00027+na28} dv2={-0.01027+nb28} dv3={-0.00032+nc28} dv4={0.02273+nd28}
+X29 q29 qb29 vdd 0 pufcell dv1={-0.01435+na29} dv2={-0.00233+nb29} dv3={0.00612+nc29} dv4={0.0011+nd29}
+X30 q30 qb30 vdd 0 pufcell dv1={0.00844+na30} dv2={-0.01363+nb30} dv3={0.00897+nc30} dv4={-0.00827+nd30}
+X31 q31 qb31 vdd 0 pufcell dv1={-0.01062+na31} dv2={0.00532+nb31} dv3={0.00451+nc31} dv4={-0.00627+nd31}
+
+.meas tran bit0 FIND V(q0) AT=18n
+.meas tran bit1 FIND V(q1) AT=18n
+.meas tran bit2 FIND V(q2) AT=18n
+.meas tran bit3 FIND V(q3) AT=18n
+.meas tran bit4 FIND V(q4) AT=18n
+.meas tran bit5 FIND V(q5) AT=18n
+.meas tran bit6 FIND V(q6) AT=18n
+.meas tran bit7 FIND V(q7) AT=18n
+.meas tran bit8 FIND V(q8) AT=18n
+.meas tran bit9 FIND V(q9) AT=18n
+.meas tran bit10 FIND V(q10) AT=18n
+.meas tran bit11 FIND V(q11) AT=18n
+.meas tran bit12 FIND V(q12) AT=18n
+.meas tran bit13 FIND V(q13) AT=18n
+.meas tran bit14 FIND V(q14) AT=18n
+.meas tran bit15 FIND V(q15) AT=18n
+.meas tran bit16 FIND V(q16) AT=18n
+.meas tran bit17 FIND V(q17) AT=18n
+.meas tran bit18 FIND V(q18) AT=18n
+.meas tran bit19 FIND V(q19) AT=18n
+.meas tran bit20 FIND V(q20) AT=18n
+.meas tran bit21 FIND V(q21) AT=18n
+.meas tran bit22 FIND V(q22) AT=18n
+.meas tran bit23 FIND V(q23) AT=18n
+.meas tran bit24 FIND V(q24) AT=18n
+.meas tran bit25 FIND V(q25) AT=18n
+.meas tran bit26 FIND V(q26) AT=18n
+.meas tran bit27 FIND V(q27) AT=18n
+.meas tran bit28 FIND V(q28) AT=18n
+.meas tran bit29 FIND V(q29) AT=18n
+.meas tran bit30 FIND V(q30) AT=18n
+.meas tran bit31 FIND V(q31) AT=18n
+
+.tran 0.1n 20n
+.step param run 1 30 1
+.end

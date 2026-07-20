@@ -1,0 +1,34 @@
+VDD vdd 0 DC 5
+VSS gnd 0 DC 0
+Vclk clk 0 PULSE(0 5 25n 1n 1n 35n 80n)
+Vwl0 wordline0 0 PULSE(0 5 10n 1n 1n 50n 200n)
+Vwl1 wordline1 0 PULSE(0 5 20n 1n 1n 50n 200n)
+Vwl2 wordline2 0 PULSE(0 5 30n 1n 1n 50n 200n)
+Vwl3 wordline3 0 PULSE(0 5 40n 1n 1n 50n 200n)
+Vbl0 bitline0 0 PWL(0n 5 79n 5 80n 0 250n 0)
+Vblb0 bitline_bar0 0 PWL(0n 0 79n 0 80n 5 250n 5)
+Vbl1 bitline1 0 PWL(0n 0 79n 0 80n 5 250n 5)
+Vblb1 bitline_bar1 0 PWL(0n 5 79n 5 80n 0 250n 0)
+Vbl2 bitline2 0 PWL(0n 5 79n 5 80n 0 250n 0)
+Vblb2 bitline_bar2 0 PWL(0n 0 79n 0 80n 5 250n 5)
+Vbl3 bitline3 0 PWL(0n 0 79n 0 80n 5 250n 5)
+Vblb3 bitline_bar3 0 PWL(0n 5 79n 5 80n 0 250n 0)
+C00 Puf_B00 0 10f
+C01 Puf_B01 0 10f
+C02 Puf_B02 0 10f
+C03 Puf_B03 0 10f
+C10 Puf_B10 0 10f
+C11 Puf_B11 0 10f
+C12 Puf_B12 0 10f
+C13 Puf_B13 0 10f
+C20 Puf_B20 0 10f
+C21 Puf_B21 0 10f
+C22 Puf_B22 0 10f
+C23 Puf_B23 0 10f
+C30 Puf_B30 0 10f
+C31 Puf_B31 0 10f
+C32 Puf_B32 0 10f
+C33 Puf_B33 0 10f
+.include C:\Users\user\Downloads\Tools\C5_models.txt
+.tran 0.1n 250n
+.end

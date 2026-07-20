@@ -1,0 +1,10 @@
+.global vdd gnd
+.option noopiter
+.temp 27
+.include "C:\Users\Hp\Downloads\Electric\C5_models.txt"
+.param SUPPLY=5
+VDD vdd 0 DC {SUPPLY}
+VSS gnd 0 DC 0
+VIN sineIn 0 PWL(0n 0 100n 0 600n 5 700n 5 1200n 0 1300n 0)
+COUT squareOut 0 25f
+.tran 0.05n 1300n

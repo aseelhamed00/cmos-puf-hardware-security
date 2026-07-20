@@ -1,0 +1,21 @@
+* 1-bit baseline 6T SRAM PUF - power and energy
+.include C5_models.txt
+VDD vdd 0 PWL(0 0 5n 5)
+.subckt pufcell Q QB vdd gnd bl blb wl dv1=0 dv2=0 dv3=0 dv4=0
+Vo1 QB g1 {dv1}
+Vo2 Q  g2 {dv2}
+Vo3 QB g3 {dv3}
+Vo4 Q  g4 {dv4}
+M1 Q  g1 gnd gnd NMOS W=3u   L=0.6u
+M2 QB g2 gnd gnd NMOS W=3u   L=0.6u
+M3 Q  g3 vdd vdd PMOS W=1.5u L=0.6u
+M4 QB g4 vdd vdd PMOS W=1.5u L=0.6u
+M5 Q  wl bl  gnd NMOS W=1.5u L=0.6u
+M6 QB wl blb gnd NMOS W=1.5u L=0.6u
+.ends pufcell
+X0 q0 qb0 vdd 0 0 0 0 pufcell dv1=0.008 dv2=-0.006 dv3=0.004 dv4=-0.003
+.meas tran Iidle FIND I(Vdd) AT=19n
+.meas tran Pidle PARAM 5*abs(Iidle)
+.meas tran Energy INTEG (V(vdd)*I(Vdd))
+.tran 0.1n 20n
+.end

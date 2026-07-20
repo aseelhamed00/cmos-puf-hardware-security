@@ -1,0 +1,36 @@
+* 4x4 baseline 6T SRAM PUF - power and energy
+.include C5_models.txt
+VDD vdd 0 PWL(0 0 5n 5)
+.subckt pufcell Q QB vdd gnd bl blb wl dv1=0 dv2=0 dv3=0 dv4=0
+Vo1 QB g1 {dv1}
+Vo2 Q  g2 {dv2}
+Vo3 QB g3 {dv3}
+Vo4 Q  g4 {dv4}
+M1 Q  g1 gnd gnd NMOS W=3u   L=0.6u
+M2 QB g2 gnd gnd NMOS W=3u   L=0.6u
+M3 Q  g3 vdd vdd PMOS W=1.5u L=0.6u
+M4 QB g4 vdd vdd PMOS W=1.5u L=0.6u
+M5 Q  wl bl  gnd NMOS W=1.5u L=0.6u
+M6 QB wl blb gnd NMOS W=1.5u L=0.6u
+.ends pufcell
+X0 q0 qb0 vdd 0 0 0 0 pufcell dv1=-0.0053 dv2=-0.0105 dv3=0.0045 dv4=-0.0128
+X1 q1 qb1 vdd 0 0 0 0 pufcell dv1=0.0011 dv2=-0.004 dv3=-0.0133 dv4=0.0002
+X2 q2 qb2 vdd 0 0 0 0 pufcell dv1=-0.0139 dv2=-0.002 dv3=-0.0129 dv4=-0.0123
+X3 q3 qb3 vdd 0 0 0 0 pufcell dv1=-0.0023 dv2=0.0098 dv3=-0.0113 dv4=-0.0083
+X4 q4 qb4 vdd 0 0 0 0 pufcell dv1=0.0038 dv2=0.0134 dv3=0.0023 dv4=-0.0031
+X5 q5 qb5 vdd 0 0 0 0 pufcell dv1=0.0143 dv2=-0.0136 dv3=0.0108 dv4=-0.0063
+X6 q6 qb6 vdd 0 0 0 0 pufcell dv1=-0.0107 dv2=-0.0115 dv3=-0.0057 dv4=0.0095
+X7 q7 qb7 vdd 0 0 0 0 pufcell dv1=-0.0096 dv2=0.0024 dv3=0.0042 dv4=-0.0038
+X8 q8 qb8 vdd 0 0 0 0 pufcell dv1=0.0014 dv2=-0.0131 dv3=-0.0132 dv4=-0.0088
+X9 q9 qb9 vdd 0 0 0 0 pufcell dv1=0.0054 dv2=-0.0022 dv3=-0.0056 dv4=0.0026
+X10 q10 qb10 vdd 0 0 0 0 pufcell dv1=-0.0014 dv2=-0.006 dv3=0.0088 dv4=0.006
+X11 q11 qb11 vdd 0 0 0 0 pufcell dv1=-0.0077 dv2=0.0022 dv3=0.0008 dv4=0.0113
+X12 q12 qb12 vdd 0 0 0 0 pufcell dv1=0.0069 dv2=-0.0064 dv3=0.0144 dv4=-0.0115
+X13 q13 qb13 vdd 0 0 0 0 pufcell dv1=-0.0025 dv2=0.0077 dv3=-0.0104 dv4=-0.0003
+X14 q14 qb14 vdd 0 0 0 0 pufcell dv1=-0.0138 dv2=0.005 dv3=0.0079 dv4=0.0022
+X15 q15 qb15 vdd 0 0 0 0 pufcell dv1=0.0113 dv2=-0.0056 dv3=0.0059 dv4=0.0028
+.meas tran Iidle FIND I(Vdd) AT=19n
+.meas tran Pidle PARAM 5*abs(Iidle)
+.meas tran Energy INTEG (V(vdd)*I(Vdd))
+.tran 0.1n 20n
+.end

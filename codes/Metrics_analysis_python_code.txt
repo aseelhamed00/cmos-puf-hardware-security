@@ -1,0 +1,58 @@
+import re, itertools
+
+# uniqueness / uniformity / bit-aliasing from an LTspice .log
+def puf_metrics(logfile, nbits=16):
+    txt = open(logfile, encoding='latin-1', errors='ignore').read()
+    blocks = re.split(r'Measurement:\s*bit(\d+)', txt)
+    bits = {}
+    for i in range(1, len(blocks), 2):
+        idx = int(blocks[i]); vals = {}
+        for m in re.finditer(r'^\s*(\d+)\s+([0-9eE\.\+\-]+)\s+[0-9eE\.\+\-]+\s*$', blocks[i+1], re.M):
+            vals[int(m.group(1))] = 1 if float(m.group(2)) > 2.5 else 0
+        bits[idx] = vals
+    common = set(bits[0])
+    for b in bits: common &= set(bits[b])
+    steps = sorted(common)
+    words = {s: [bits[b][s] for b in range(nbits)] for s in steps}
+    hd = [100*sum(x != y for x, y in zip(words[a], words[b]))/nbits
+          for a, b in itertools.combinations(steps, 2)]
+    allb = [words[s][b] for s in steps for b in range(nbits)]
+    alias = [100*sum(words[s][b] for s in steps)/len(steps) for b in range(nbits)]
+    print("uniqueness %.2f%%  uniformity %.2f%%" % (sum(hd)/len(hd), 100*sum(allb)/len(allb)))
+    print("bit-aliasing:", " ".join("%.0f" % a for a in alias))
+
+# BER with split enrollment (reads 1-15) / evaluation (reads 16-30)
+def puf_ber_split(logfile):
+    txt = open(logfile, encoding='latin-1', errors='ignore').read()
+    blocks = re.split(r'Measurement:\s*bit(\d+)', txt)
+    cells = {}
+    for i in range(1, len(blocks), 2):
+        idx = int(blocks[i]); vals = {}
+        for m in re.finditer(r'^\s*(\d+)\s+([0-9eE\.\+\-]+)\s+[0-9eE\.\+\-]+\s*$', blocks[i+1], re.M):
+            vals[int(m.group(1))] = 1 if float(m.group(2)) > 2.5 else 0
+        cells[idx] = vals
+    N = len(cells)
+    enroll, evalr = range(1, 16), range(16, 31)
+    retained, enrolled = [], {}
+    for c, v in cells.items():
+        er = [v[s] for s in enroll]
+        enrolled[c] = 1 if sum(er) >= len(er)/2 else 0
+        if len(set(er)) == 1:
+            retained.append(c)
+    def ber(cl):
+        f = t = 0
+        for c in cl:
+            for s in evalr:
+                t += 1
+                if cells[c][s] != enrolled[c]: f += 1
+        return 100*f/t
+    print("retained %d/%d" % (len(retained), N))
+    print("baseline BER %.2f%%  proposed BER %.2f%%" % (ber(list(cells)), ber(retained)))
+
+# power/energy read directly from the .log .meas lines:
+#   Pstatic = 5 * |I(Vdd) settled|
+#   energy  = .meas tran E INTEG (V(vdd)*I(Vdd))   (VDD ramps, so integrate, not VDD*Iavg)
+
+if __name__ == "__main__":
+    puf_metrics("puf_mismatch_mc.log", 16)
+    puf_ber_split("puf_ber_split.log")

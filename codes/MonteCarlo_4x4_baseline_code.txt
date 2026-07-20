@@ -1,0 +1,70 @@
+* 4x4 SRAM PUF mismatch Monte Carlo
+.include C5_models.txt
+.param s=0.009
+VDD vdd 0 PWL(0 0 5n 5)
+.subckt pufcell Q QB vdd gnd bl blb wl dv1=0 dv2=0 dv3=0 dv4=0
+Vo1 QB g1 {dv1}
+Vo2 Q  g2 {dv2}
+Vo3 QB g3 {dv3}
+Vo4 Q  g4 {dv4}
+M1 Q  g1 gnd gnd NMOS W=3u   L=0.6u
+M2 QB g2 gnd gnd NMOS W=3u   L=0.6u
+M3 Q  g3 vdd vdd PMOS W=1.5u L=0.6u
+M4 QB g4 vdd vdd PMOS W=1.5u L=0.6u
+M5 Q  wl bl  gnd NMOS W=1.5u L=0.6u
+M6 QB wl blb gnd NMOS W=1.5u L=0.6u
+.ends pufcell
+.param a0={gauss(s)} b0={gauss(s)} c0={gauss(s)} d0={gauss(s)}
+.param a1={gauss(s)} b1={gauss(s)} c1={gauss(s)} d1={gauss(s)}
+.param a2={gauss(s)} b2={gauss(s)} c2={gauss(s)} d2={gauss(s)}
+.param a3={gauss(s)} b3={gauss(s)} c3={gauss(s)} d3={gauss(s)}
+.param a4={gauss(s)} b4={gauss(s)} c4={gauss(s)} d4={gauss(s)}
+.param a5={gauss(s)} b5={gauss(s)} c5={gauss(s)} d5={gauss(s)}
+.param a6={gauss(s)} b6={gauss(s)} c6={gauss(s)} d6={gauss(s)}
+.param a7={gauss(s)} b7={gauss(s)} c7={gauss(s)} d7={gauss(s)}
+.param a8={gauss(s)} b8={gauss(s)} c8={gauss(s)} d8={gauss(s)}
+.param a9={gauss(s)} b9={gauss(s)} c9={gauss(s)} d9={gauss(s)}
+.param a10={gauss(s)} b10={gauss(s)} c10={gauss(s)} d10={gauss(s)}
+.param a11={gauss(s)} b11={gauss(s)} c11={gauss(s)} d11={gauss(s)}
+.param a12={gauss(s)} b12={gauss(s)} c12={gauss(s)} d12={gauss(s)}
+.param a13={gauss(s)} b13={gauss(s)} c13={gauss(s)} d13={gauss(s)}
+.param a14={gauss(s)} b14={gauss(s)} c14={gauss(s)} d14={gauss(s)}
+.param a15={gauss(s)} b15={gauss(s)} c15={gauss(s)} d15={gauss(s)}
+
+X0 q0 qb0 vdd 0 0 0 0 pufcell dv1={a0} dv2={b0} dv3={c0} dv4={d0}
+X1 q1 qb1 vdd 0 0 0 0 pufcell dv1={a1} dv2={b1} dv3={c1} dv4={d1}
+X2 q2 qb2 vdd 0 0 0 0 pufcell dv1={a2} dv2={b2} dv3={c2} dv4={d2}
+X3 q3 qb3 vdd 0 0 0 0 pufcell dv1={a3} dv2={b3} dv3={c3} dv4={d3}
+X4 q4 qb4 vdd 0 0 0 0 pufcell dv1={a4} dv2={b4} dv3={c4} dv4={d4}
+X5 q5 qb5 vdd 0 0 0 0 pufcell dv1={a5} dv2={b5} dv3={c5} dv4={d5}
+X6 q6 qb6 vdd 0 0 0 0 pufcell dv1={a6} dv2={b6} dv3={c6} dv4={d6}
+X7 q7 qb7 vdd 0 0 0 0 pufcell dv1={a7} dv2={b7} dv3={c7} dv4={d7}
+X8 q8 qb8 vdd 0 0 0 0 pufcell dv1={a8} dv2={b8} dv3={c8} dv4={d8}
+X9 q9 qb9 vdd 0 0 0 0 pufcell dv1={a9} dv2={b9} dv3={c9} dv4={d9}
+X10 q10 qb10 vdd 0 0 0 0 pufcell dv1={a10} dv2={b10} dv3={c10} dv4={d10}
+X11 q11 qb11 vdd 0 0 0 0 pufcell dv1={a11} dv2={b11} dv3={c11} dv4={d11}
+X12 q12 qb12 vdd 0 0 0 0 pufcell dv1={a12} dv2={b12} dv3={c12} dv4={d12}
+X13 q13 qb13 vdd 0 0 0 0 pufcell dv1={a13} dv2={b13} dv3={c13} dv4={d13}
+X14 q14 qb14 vdd 0 0 0 0 pufcell dv1={a14} dv2={b14} dv3={c14} dv4={d14}
+X15 q15 qb15 vdd 0 0 0 0 pufcell dv1={a15} dv2={b15} dv3={c15} dv4={d15}
+
+.meas tran bit0 FIND V(q0) AT=18n
+.meas tran bit1 FIND V(q1) AT=18n
+.meas tran bit2 FIND V(q2) AT=18n
+.meas tran bit3 FIND V(q3) AT=18n
+.meas tran bit4 FIND V(q4) AT=18n
+.meas tran bit5 FIND V(q5) AT=18n
+.meas tran bit6 FIND V(q6) AT=18n
+.meas tran bit7 FIND V(q7) AT=18n
+.meas tran bit8 FIND V(q8) AT=18n
+.meas tran bit9 FIND V(q9) AT=18n
+.meas tran bit10 FIND V(q10) AT=18n
+.meas tran bit11 FIND V(q11) AT=18n
+.meas tran bit12 FIND V(q12) AT=18n
+.meas tran bit13 FIND V(q13) AT=18n
+.meas tran bit14 FIND V(q14) AT=18n
+.meas tran bit15 FIND V(q15) AT=18n
+
+.tran 0.1n 20n
+.step param run 1 60 1
+.end

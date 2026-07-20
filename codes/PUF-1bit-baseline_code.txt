@@ -1,0 +1,10 @@
+VDD vdd 0 DC 5
+VSS gnd 0 DC 0
+Vwl wordline 0 PULSE(0 5 10n 1n 1n 50n 100n)
+Vbl bitline 0 PWL(0n 5 79n 5 80n 0 200n 0)
+Vblb bitline_bar 0 PWL(0n 0 79n 0 80n 5 200n 5)
+Vclk clk 0 PULSE(0 5 25n 1n 1n 35n 80n)
+Cout Y 0 25f
+.include C:\Users\user\Downloads\Tools\C5_models.txt
+.tran 0.1n 200n
+.end

@@ -1,0 +1,26 @@
+* Readout delay: inverter vs Schmitt
+.include C5_models.txt
+VDD vdd 0 DC 5
+Vin in 0 PULSE(0 5 5n 0.1n 0.1n 10n 20n)
+
+MInvP outb in vdd vdd PMOS W=6u L=0.6u
+MInvN outb in gnd gnd NMOS W=3u L=0.6u
+Cb outb 0 10f
+
+.subckt schmitt in out vdd gnd
+MP1 n1  in  vdd vdd PMOS W=6u L=0.6u
+MP2 out in  n1  vdd PMOS W=6u L=0.6u
+MN1 out in  n2  gnd NMOS W=3u L=0.6u
+MN2 n2  in  gnd gnd NMOS W=3u L=0.6u
+MNfb n1 out gnd gnd NMOS W=3u L=0.6u
+MPfb n2 out vdd vdd PMOS W=6u L=0.6u
+.ends schmitt
+XS in outs vdd 0 schmitt
+Cs outs 0 10f
+
+.meas tran tpHL_inv TRIG V(in) VAL=2.5 RISE=1 TARG V(outb) VAL=2.5 FALL=1
+.meas tran tpLH_inv TRIG V(in) VAL=2.5 FALL=1 TARG V(outb) VAL=2.5 RISE=1
+.meas tran tpHL_sch TRIG V(in) VAL=2.5 RISE=1 TARG V(outs) VAL=2.5 FALL=1
+.meas tran tpLH_sch TRIG V(in) VAL=2.5 FALL=1 TARG V(outs) VAL=2.5 RISE=1
+.tran 0.01n 40n
+.end

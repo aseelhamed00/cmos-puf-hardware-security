@@ -1,0 +1,54 @@
+* 4x4 proposed PUF (gated Schmitt + latch) - power and energy
+.include C5_models.txt
+VDD vdd 0 DC 5
+VEN  en  0 PULSE(0 5 20n 0.1n 0.1n 2n 100n)
+VENB enb 0 PULSE(5 0 20n 0.1n 0.1n 2n 100n)
+.subckt propcell Q QB en enb vdd gnd dv1=0 dv2=0 dv3=0 dv4=0
+Vo1 QB g1 {dv1}
+Vo2 Q  g2 {dv2}
+Vo3 QB g3 {dv3}
+Vo4 Q  g4 {dv4}
+M1 Q  g1 gnd gnd NMOS W=3u   L=0.6u
+M2 QB g2 gnd gnd NMOS W=3u   L=0.6u
+M3 Q  g3 vdd vdd PMOS W=1.5u L=0.6u
+M4 QB g4 vdd vdd PMOS W=1.5u L=0.6u
+MH vddg enb vdd vdd PMOS W=6u L=0.6u
+MF gndg en  gnd gnd NMOS W=3u L=0.6u
+MP1 n1 Q vddg vddg PMOS W=6u L=0.6u
+MP2 so Q n1   vddg PMOS W=6u L=0.6u
+MN1 so Q n2   gndg NMOS W=3u L=0.6u
+MN2 n2 Q gndg gndg NMOS W=3u L=0.6u
+MNfb n1 so gndg gndg NMOS W=3u L=0.6u
+MPfb n2 so vddg vddg PMOS W=6u L=0.6u
+MTG1n d en  so gnd NMOS W=3u L=0.6u
+MTG1p d enb so vdd PMOS W=6u L=0.6u
+Mi1p yb d vdd vdd PMOS W=6u L=0.6u
+Mi1n yb d gnd gnd NMOS W=3u L=0.6u
+Mi2p y  yb vdd vdd PMOS W=6u L=0.6u
+Mi2n y  yb gnd gnd NMOS W=3u L=0.6u
+MTG2n d enb y gnd NMOS W=3u L=0.6u
+MTG2p d en  y vdd PMOS W=6u L=0.6u
+Cy y 0 10f
+.ends propcell
+X0 q0 qb0 en enb vdd 0 propcell dv1=-0.0105 dv2=0.0018 dv3=-0.0052 dv4=0.0042
+X1 q1 qb1 en enb vdd 0 propcell dv1=0.005 dv2=-0.0174 dv3=-0.0195 dv4=0.0135
+X2 q2 qb2 en enb vdd 0 propcell dv1=-0.0096 dv2=-0.0106 dv3=0.0198 dv4=-0.0012
+X3 q3 qb3 en enb vdd 0 propcell dv1=0.0135 dv2=-0.0009 dv3=0.0056 dv4=-0.014
+X4 q4 qb4 en enb vdd 0 propcell dv1=0.0054 dv2=0.0147 dv3=0.0009 dv4=0.0097
+X5 q5 qb5 en enb vdd 0 propcell dv1=0.0069 dv2=-0.0174 dv3=0.0103 dv4=0.0036
+X6 q6 qb6 en enb vdd 0 propcell dv1=-0.0079 dv2=-0.0188 dv3=0.0146 dv4=-0.0011
+X7 q7 qb7 en enb vdd 0 propcell dv1=0.0088 dv2=0.0152 dv3=0.0086 dv4=0.0168
+X8 q8 qb8 en enb vdd 0 propcell dv1=-0.0042 dv2=0.012 dv3=-0.0022 dv4=0.0174
+X9 q9 qb9 en enb vdd 0 propcell dv1=0.0152 dv2=-0.0161 dv3=-0.0146 dv4=-0.0113
+X10 q10 qb10 en enb vdd 0 propcell dv1=0.0186 dv2=-0.0026 dv3=0.0051 dv4=-0.008
+X11 q11 qb11 en enb vdd 0 propcell dv1=0.0003 dv2=-0.0046 dv3=-0.006 dv4=0.0034
+X12 q12 qb12 en enb vdd 0 propcell dv1=0.0034 dv2=0.0162 dv3=0.0073 dv4=0.0172
+X13 q13 qb13 en enb vdd 0 propcell dv1=0.0143 dv2=0.0196 dv3=0.0069 dv4=-0.0135
+X14 q14 qb14 en enb vdd 0 propcell dv1=0.0144 dv2=0.0186 dv3=0.0162 dv4=0.0028
+X15 q15 qb15 en enb vdd 0 propcell dv1=0.0086 dv2=-0.0116 dv3=0.0133 dv4=0.0029
+.ic V(q0)=0 V(qb0)=5 V(q1)=5 V(qb1)=0 V(q2)=0 V(qb2)=5 V(q3)=5 V(qb3)=0 V(q4)=5 V(qb4)=0 V(q5)=5 V(qb5)=0 V(q6)=0 V(qb6)=5 V(q7)=5 V(qb7)=0 V(q8)=0 V(qb8)=5 V(q9)=5 V(qb9)=0 V(q10)=5 V(qb10)=0 V(q11)=5 V(qb11)=0 V(q12)=5 V(qb12)=0 V(q13)=5 V(qb13)=0 V(q14)=5 V(qb14)=0 V(q15)=5 V(qb15)=0
+.meas tran Iidle FIND I(Vdd) AT=15n
+.meas tran Pidle PARAM 5*abs(Iidle)
+.meas tran Eread INTEG (V(vdd)*I(Vdd)) FROM=19.5n TO=30n
+.tran 0.01n 40n uic
+.end

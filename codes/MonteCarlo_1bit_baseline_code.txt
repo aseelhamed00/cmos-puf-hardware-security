@@ -1,0 +1,20 @@
+* 1-bit SRAM PUF Monte Carlo
+.include C5_models.txt
+.param s=0.009
+VDD vdd 0 PWL(0 0 5n 5)
+.subckt pufcell Q QB vdd gnd dv1=0 dv2=0 dv3=0 dv4=0
+Vo1 QB g1 {dv1}
+Vo2 Q  g2 {dv2}
+Vo3 QB g3 {dv3}
+Vo4 Q  g4 {dv4}
+M1 Q  g1 gnd gnd NMOS W=3u   L=0.6u
+M2 QB g2 gnd gnd NMOS W=3u   L=0.6u
+M3 Q  g3 vdd vdd PMOS W=1.5u L=0.6u
+M4 QB g4 vdd vdd PMOS W=1.5u L=0.6u
+.ends pufcell
+.param a0={gauss(s)} b0={gauss(s)} c0={gauss(s)} d0={gauss(s)}
+X0 q0 qb0 vdd 0 pufcell dv1={a0} dv2={b0} dv3={c0} dv4={d0}
+.meas tran bit0 FIND V(q0) AT=18n
+.tran 0.1n 20n
+.step param run 1 120 1
+.end

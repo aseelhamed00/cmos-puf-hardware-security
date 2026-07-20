@@ -1,0 +1,47 @@
+* 1-bit proposed PUF (gated Schmitt + latch) - power and energy
+.include C5_models.txt
+VDD vdd 0 DC 5
+VEN  en  0 PULSE(0 5 20n 0.1n 0.1n 2n 100n)
+VENB enb 0 PULSE(5 0 20n 0.1n 0.1n 2n 100n)
+
+.subckt pufcell Q QB vdd gnd dv1=0 dv2=0 dv3=0 dv4=0
+Vo1 QB g1 {dv1}
+Vo2 Q  g2 {dv2}
+Vo3 QB g3 {dv3}
+Vo4 Q  g4 {dv4}
+M1 Q  g1 gnd gnd NMOS W=3u   L=0.6u
+M2 QB g2 gnd gnd NMOS W=3u   L=0.6u
+M3 Q  g3 vdd vdd PMOS W=1.5u L=0.6u
+M4 QB g4 vdd vdd PMOS W=1.5u L=0.6u
+.ends pufcell
+X0 q0 qb0 vdd 0 pufcell dv1=0.02 dv2=-0.02 dv3=0.015 dv4=-0.015
+.ic V(q0)=5 V(qb0)=0
+
+MH vddg enb vdd vdd PMOS W=6u L=0.6u
+MF gndg en  gnd gnd NMOS W=3u L=0.6u
+
+.subckt schmitt in out vdd gnd
+MP1 n1  in  vdd vdd PMOS W=6u L=0.6u
+MP2 out in  n1  vdd PMOS W=6u L=0.6u
+MN1 out in  n2  gnd NMOS W=3u L=0.6u
+MN2 n2  in  gnd gnd NMOS W=3u L=0.6u
+MNfb n1 out gnd gnd NMOS W=3u L=0.6u
+MPfb n2 out vdd vdd PMOS W=6u L=0.6u
+.ends schmitt
+XS q0 so vddg gndg schmitt
+
+MTG1n d en  so gnd NMOS W=3u L=0.6u
+MTG1p d enb so vdd PMOS W=6u L=0.6u
+Minv1p yb d  vdd vdd PMOS W=6u L=0.6u
+Minv1n yb d  gnd gnd NMOS W=3u L=0.6u
+Minv2p y  yb vdd vdd PMOS W=6u L=0.6u
+Minv2n y  yb gnd gnd NMOS W=3u L=0.6u
+MTG2n d enb y gnd NMOS W=3u L=0.6u
+MTG2p d en  y vdd PMOS W=6u L=0.6u
+Cy y 0 10f
+
+.meas tran Iidle FIND I(Vdd) AT=15n
+.meas tran Pidle PARAM 5*abs(Iidle)
+.meas tran Eread INTEG (V(vdd)*I(Vdd)) FROM=19.5n TO=30n
+.tran 0.01n 40n uic
+.end
